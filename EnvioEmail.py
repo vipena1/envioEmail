@@ -90,9 +90,8 @@ Pedido No: PEDIDO {pedido.get()}
 
 Att.
 {nome.get().title()}
-Engenharia
 {('_' * 20)} 
-Tel.: +55 11 3302 0915
+
         '''
 
         anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
@@ -169,9 +168,8 @@ Pedido No: PEDIDO {pedido.get()}
 
 Att.
 {nome.get().title()}
-Engenharia
 {('_' * 20)} 
-Tel.: +55 11 3302 0915
+
     '''
 
         anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
@@ -246,9 +244,8 @@ Vencimento: {vencimento.get()}
 
 Att.
 {nome.get().title()}
-Engenharia
 {('_' * 20)} 
-Tel.: +55 11 3302 0915
+
     '''
 
         anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
