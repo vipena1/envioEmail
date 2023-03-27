@@ -79,7 +79,6 @@ def envio_Cartao():
         email.Body = f'''Prezados, {saudacao}
 
 Segue abaixo informações da nota fiscal anexa: 
-Nome comprador: MARCEL GATTI
 Finalidade: {finalidade.get()}
 Projeto: {projeto.get().upper()}
 Setor: {setor.get().upper()}
@@ -157,7 +156,6 @@ def envio_Caixinha():  # Função para envio de e-mail com nota fiscal a ser pag
         email.Body = f'''Prezados, {saudacao}
 
 Segue abaixo informações da nota fiscal anexa: PAGAMENTOS REALIZADOS PELO MOTOBOY OU MOTORISTAS, PEDIDO FEITO NA CAIXINHA.
-Nome comprador: MARCEL GATTI
 Finalidade: {finalidade.get()}
 Projeto: {projeto.get().upper()}
 Setor: {setor.get().upper()}
@@ -232,7 +230,6 @@ def envio_NF():  # Função para envio de e-mail com nota fiscal a ser paga.
         email.Body = f'''Prezados, {saudacao}
 
 Segue abaixo informações da nota fiscal anexa: 
-Nome comprador: MARCEL GATTI
 Finalidade: {finalidade.get()}
 Projeto: {projeto.get().upper()}
 Setor: {setor.get().upper()}
