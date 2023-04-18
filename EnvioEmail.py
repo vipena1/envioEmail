@@ -3,7 +3,13 @@ from datetime import datetime
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+import openpyxl as opxl
 import os
+
+# Abertura de planilha para salvar qual pedido já foi enviado ou não.
+arquivoPedido = opxl.load_workbook("W:/Compras de peças - REGISTROS_NFs_CONTROLE/Historico de notas enviadas.xlsx")
+planilha = arquivoPedido["Pedidos Enviados"]
+
 
 # Definindo horario atual
 hora = datetime.now()
@@ -342,6 +348,9 @@ Verifique n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
 
 
 def fechar():
+
+    planilha.append([pedido.get()])
+    arquivoPedido.save("W:/Compras de peças - REGISTROS_NFs_CONTROLE/Historico de notas enviadas.xlsx")
     NF_envio.quit()
 
 
