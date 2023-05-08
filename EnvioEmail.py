@@ -65,60 +65,75 @@ def btCARTAO():
     tvencimento.destroy()
     vencimento.destroy()
     textselect.destroy()
-    tboleto.destroy()
+    tboleto.destr
     menuBoleto.destroy()
     bt_envioCARTAO = Button(NF_envio, text='Enviar e-mail', command=envio_Cartao)
     bt_envioCARTAO.grid(column=0, row=16, columnspan=3, pady=20)
 
+try:
 
-def envio_Cartao():
-    if pedido.get() == '' or ano.get() == '' or mes.get() == '' or finalidade.get() == '' or projeto.get() == '' or setor.get() == '' or subsetor.get() == '' or nome.get() == '':
-        messagebox.showwarning(title='Envio de pedido de compras.', message='Todos os campos com * são obrigatórios!')
-
-    else:
-
-        outlook = win32.Dispatch('outlook.application')
-        email = outlook.CreateItem(0)
-        email.To = 'financas@porschegt3cup.com.br'
-        email.CC = f'enzo@porschegt3cup.com.br;silvana@porschegt3cup.com.br;daniel@porschegt3cup.com.br;{emailcc.get()}@porschegt3cup.com.br'
-        email.Subject = f'COMPRA NO CARTÃO DE CRÉDITO - FINAL {cartao.get()}'
-        email.Body = f'''Prezados, {saudacao}
-
-Segue abaixo informações da nota fiscal anexa: 
-Finalidade: {finalidade.get()}
-Projeto: {projeto.get().upper()}
-Setor: {setor.get().upper()}
-Subsetor: {subsetor.get().upper()}
-Pedido No: PEDIDO {pedido.get()}
-
-{observacao.get()}
-
-Att.
-{nome.get().title()}
-{('_' * 20)} 
-
-        '''
-
-        anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
-            ano.get(), mes.get().upper(), pedido.get())
-        if not os.path.exists(anexo1):
-            messagebox.showwarning(title='Envio de pedido de compras.', message='''Nota fiscal não encotrada.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+    def envio_Cartao():
+        if pedido.get() == '' or ano.get() == '' or mes.get() == '' or finalidade.get() == '' or projeto.get() == '' or setor.get() == '' or subsetor.get() == '' or nome.get() == '':
+            messagebox.showwarning(title='Envio de pedido de compras.', message='Todos os campos com * são obrigatórios!')
 
         else:
-            email.Attachments.Add(anexo1)
 
-            if (finalidade.get().upper() == 'ANEXO') or (projeto.get().upper() == 'ANEXO') or (
-                    setor.get().upper() == 'ANEXO') or (subsetor.get().upper() == 'ANEXO'):
-                anexo2 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\pedido {}.pdf'.format(
-                    ano.get(), mes.get().upper(), pedido.get())
-                if not os.path.exists(anexo2):
-                    messagebox.showwarning(title='Envio de pedido de compras.', message='''Anexo não encontrado.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+            outlook = win32.Dispatch('outlook.application')
+            email = outlook.CreateItem(0)
+            email.To = 'financas@porschegt3cup.com.br'
+            email.CC = f'enzo@porschegt3cup.com.br;silvana@porschegt3cup.com.br;daniel@porschegt3cup.com.br;{emailcc.get()}@porschegt3cup.com.br'
+            email.Subject = f'COMPRA NO CARTÃO DE CRÉDITO - FINAL {cartao.get()}'
+            email.Body = f'''Prezados, {saudacao}
+    
+    Segue abaixo informações da nota fiscal anexa: 
+    Finalidade: {finalidade.get()}
+    Projeto: {projeto.get().upper()}
+    Setor: {setor.get().upper()}
+    Subsetor: {subsetor.get().upper()}
+    Pedido No: PEDIDO {pedido.get()}
+    
+    {observacao.get()}
+    
+    Att.
+    {nome.get().title()}
+    {('_' * 20)} 
+    
+            '''
+
+            anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
+                ano.get(), mes.get().upper(), pedido.get())
+            if not os.path.exists(anexo1):
+                messagebox.showwarning(title='Envio de pedido de compras.', message='''Nota fiscal não encotrada.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+            else:
+                email.Attachments.Add(anexo1)
+
+                if (finalidade.get().upper() == 'ANEXO') or (projeto.get().upper() == 'ANEXO') or (
+                        setor.get().upper() == 'ANEXO') or (subsetor.get().upper() == 'ANEXO'):
+                    anexo2 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\pedido {}.pdf'.format(
+                        ano.get(), mes.get().upper(), pedido.get())
+                    if not os.path.exists(anexo2):
+                        messagebox.showwarning(title='Envio de pedido de compras.', message='''Anexo não encontrado.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+                    else:
+                        email.Attachments.Add(anexo2)
+
+                        email.Send()
+
+                        enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
+                        enviado.grid(column=1, row=13, columnspan=3)
+
+                        botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
+                        botao2.grid(column=1, row=16, columnspan=3, pady=20)
+
+                        pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                        tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
+                        tvencimento.destroy(), tcartao.destroy(), cartao.destroy(), textinicial.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
+                        tobservacao.destroy(), observacao.destroy()
 
                 else:
-                    email.Attachments.Add(anexo2)
-
                     email.Send()
 
                     enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
@@ -127,75 +142,73 @@ Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
                     botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
                     botao2.grid(column=1, row=16, columnspan=3, pady=20)
 
-                    pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                    pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
                     tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
                     tvencimento.destroy(), tcartao.destroy(), cartao.destroy(), textinicial.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
                     tobservacao.destroy(), observacao.destroy()
 
-            else:
-                email.Send()
 
-                enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
-                enviado.grid(column=1, row=13, columnspan=3)
+    def envio_Caixinha():  # Função para envio de e-mail com nota fiscal a ser paga.
 
-                botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
-                botao2.grid(column=1, row=16, columnspan=3, pady=20)
-
-                pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
-                tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
-                tvencimento.destroy(), tcartao.destroy(), cartao.destroy(), textinicial.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
-                tobservacao.destroy(), observacao.destroy()
-
-
-def envio_Caixinha():  # Função para envio de e-mail com nota fiscal a ser paga.
-
-    if pedido.get() == '' or ano.get() == '' or mes.get() == '' or finalidade.get() == '' or projeto.get() == '' or setor.get() == '' or subsetor.get() == '' or nome.get() == '':
-        messagebox.showwarning(title='Envio de pedido de compras.', message='Todos os campos com * são obrigatórios!')
-
-    else:
-
-        outlook = win32.Dispatch('outlook.application')
-        email = outlook.CreateItem(0)
-        email.To = 'financas@porschegt3cup.com.br'
-        email.CC = f'enzo@porschegt3cup.com.br;silvana@porschegt3cup.com.br;{emailcc.get()}@porschegt3cup.com.br'
-        email.Subject = 'PEDIDO {}'.format(pedido.get())
-        email.Body = f'''Prezados, {saudacao}
-
-Segue abaixo informações da nota fiscal anexa: PAGAMENTOS REALIZADOS PELO MOTOBOY OU MOTORISTAS, PEDIDO FEITO NA CAIXINHA.
-Finalidade: {finalidade.get()}
-Projeto: {projeto.get().upper()}
-Setor: {setor.get().upper()}
-Subsetor: {subsetor.get().upper()}
-Pedido No: PEDIDO {pedido.get()}
-
-{observacao.get()}
-
-Att.
-{nome.get().title()}
-{('_' * 20)} 
-
-    '''
-
-        anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
-            ano.get(), mes.get().upper(), pedido.get())
-        if not os.path.exists(anexo1):
-            messagebox.showwarning(title='Envio de pedido de compras.', message='''Nota fiscal não encontrada.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+        if pedido.get() == '' or ano.get() == '' or mes.get() == '' or finalidade.get() == '' or projeto.get() == '' or setor.get() == '' or subsetor.get() == '' or nome.get() == '':
+            messagebox.showwarning(title='Envio de pedido de compras.', message='Todos os campos com * são obrigatórios!')
 
         else:
-            email.Attachments.Add(anexo1)
 
-            if (finalidade.get().upper() == 'ANEXO') or (projeto.get().upper() == 'ANEXO') or (
-                    setor.get().upper() == 'ANEXO') or (subsetor.get().upper() == 'ANEXO'):
-                anexo2 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\pedido {}.pdf'.format(
-                    ano.get(), mes.get().upper(), pedido.get())
-                if not os.path.exists(anexo2):
-                    messagebox.showwarning(title='Envio de pedido de compras', message='''Anexo não encontrado.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+            outlook = win32.Dispatch('outlook.application')
+            email = outlook.CreateItem(0)
+            email.To = 'financas@porschegt3cup.com.br'
+            email.CC = f'enzo@porschegt3cup.com.br;silvana@porschegt3cup.com.br;{emailcc.get()}@porschegt3cup.com.br'
+            email.Subject = 'PEDIDO {}'.format(pedido.get())
+            email.Body = f'''Prezados, {saudacao}
+    
+    Segue abaixo informações da nota fiscal anexa: PAGAMENTOS REALIZADOS PELO MOTOBOY OU MOTORISTAS, PEDIDO FEITO NA CAIXINHA.
+    Finalidade: {finalidade.get()}
+    Projeto: {projeto.get().upper()}
+    Setor: {setor.get().upper()}
+    Subsetor: {subsetor.get().upper()}
+    Pedido No: PEDIDO {pedido.get()}
+    
+    {observacao.get()}
+    
+    Att.
+    {nome.get().title()}
+    {('_' * 20)} 
+    
+        '''
 
+            anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
+                ano.get(), mes.get().upper(), pedido.get())
+            if not os.path.exists(anexo1):
+                messagebox.showwarning(title='Envio de pedido de compras.', message='''Nota fiscal não encontrada.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+            else:
+                email.Attachments.Add(anexo1)
+
+                if (finalidade.get().upper() == 'ANEXO') or (projeto.get().upper() == 'ANEXO') or (
+                        setor.get().upper() == 'ANEXO') or (subsetor.get().upper() == 'ANEXO'):
+                    anexo2 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\pedido {}.pdf'.format(
+                        ano.get(), mes.get().upper(), pedido.get())
+                    if not os.path.exists(anexo2):
+                        messagebox.showwarning(title='Envio de pedido de compras', message='''Anexo não encontrado.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+                    else:
+                        email.Attachments.Add(anexo2)
+
+                        email.Send()
+
+                        enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
+                        enviado.grid(column=0, row=11, columnspan=3)
+
+                        botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
+                        botao2.grid(column=0, row=16, columnspan=3, pady=20)
+
+                        pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                        tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
+                        tvencimento.destroy(), textinicial.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),tobservacao.destroy(), observacao.destroy()
                 else:
-                    email.Attachments.Add(anexo2)
-
                     email.Send()
 
                     enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
@@ -204,79 +217,105 @@ Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
                     botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
                     botao2.grid(column=0, row=16, columnspan=3, pady=20)
 
-                    pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                    pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
                     tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
                     tvencimento.destroy(), textinicial.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),tobservacao.destroy(), observacao.destroy()
-            else:
-                email.Send()
-
-                enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
-                enviado.grid(column=0, row=11, columnspan=3)
-
-                botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
-                botao2.grid(column=0, row=16, columnspan=3, pady=20)
-
-                pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
-                tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
-                tvencimento.destroy(), textinicial.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),tobservacao.destroy(), observacao.destroy()
 
 
-def envio_NF():  # Função para envio de e-mail com nota fiscal a ser paga.
+    def envio_NF():  # Função para envio de e-mail com nota fiscal a ser paga.
 
-    if pedido.get() == '' or ano.get() == '' or mes.get() == '' or finalidade.get() == '' or projeto.get() == '' or setor.get() == '' or subsetor.get() == '' or vencimento.get() == '' or vlista.get() == '' or nome.get() == '':
-        messagebox.showwarning(title='Envio de pedido de compras.', message='Todos os campos com * são obrigatórios!')
-
-    else:
-
-        outlook = win32.Dispatch('outlook.application')
-        email = outlook.CreateItem(0)
-        email.To = 'financas@porschegt3cup.com.br'
-        email.CC = f'enzo@porschegt3cup.com.br;silvana@porschegt3cup.com.br;{emailcc.get()}@porschegt3cup.com.br'
-        email.Subject = 'PEDIDO {}'.format(pedido.get())
-        email.Body = f'''Prezados, {saudacao}
-
-Segue abaixo informações da nota fiscal anexa: 
-Finalidade: {finalidade.get()}
-Projeto: {projeto.get().upper()}
-Setor: {setor.get().upper()}
-Subsetor: {subsetor.get().upper()}
-Pedido No: PEDIDO {pedido.get()}
-Vencimento: {vencimento.get()}
-
-{observacao.get()}
-
-Att.
-{nome.get().title()}
-{('_' * 20)} 
-
-    '''
-
-        anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
-            ano.get(), mes.get().upper(), pedido.get())
-        if not os.path.exists(anexo1):
-            messagebox.showwarning(title='Envio de pedido de compras.', message='''Nota fiscal não encontrada.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+        if pedido.get() == '' or ano.get() == '' or mes.get() == '' or finalidade.get() == '' or projeto.get() == '' or setor.get() == '' or subsetor.get() == '' or vencimento.get() == '' or vlista.get() == '' or nome.get() == '':
+            messagebox.showwarning(title='Envio de pedido de compras.', message='Todos os campos com * são obrigatórios!')
 
         else:
-            email.Attachments.Add(anexo1)
 
-            if (finalidade.get().upper() == 'ANEXO') or (projeto.get().upper() == 'ANEXO') or (
-                    setor.get().upper() == 'ANEXO') or (subsetor.get().upper() == 'ANEXO'):
-                anexo2 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\pedido {}.pdf'.format(
-                    ano.get(), mes.get().upper(), pedido.get())
-                if not os.path.exists(anexo2):
-                    messagebox.showwarning(title='Envio de pedido de compras.', message='''Anexo não encontrado.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+            outlook = win32.Dispatch('outlook.application')
+            email = outlook.CreateItem(0)
+            email.To = 'financas@porschegt3cup.com.br'
+            email.CC = f'enzo@porschegt3cup.com.br;silvana@porschegt3cup.com.br;{emailcc.get()}@porschegt3cup.com.br'
+            email.Subject = 'PEDIDO {}'.format(pedido.get())
+            email.Body = f'''Prezados, {saudacao}
+    
+    Segue abaixo informações da nota fiscal anexa: 
+    Finalidade: {finalidade.get()}
+    Projeto: {projeto.get().upper()}
+    Setor: {setor.get().upper()}
+    Subsetor: {subsetor.get().upper()}
+    Pedido No: PEDIDO {pedido.get()}
+    Vencimento: {vencimento.get()}
+    
+    {observacao.get()}
+    
+    Att.
+    {nome.get().title()}
+    {('_' * 20)} 
+    
+        '''
+
+            anexo1 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\NF pedido {}.pdf'.format(
+                ano.get(), mes.get().upper(), pedido.get())
+            if not os.path.exists(anexo1):
+                messagebox.showwarning(title='Envio de pedido de compras.', message='''Nota fiscal não encontrada.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+            else:
+                email.Attachments.Add(anexo1)
+
+                if (finalidade.get().upper() == 'ANEXO') or (projeto.get().upper() == 'ANEXO') or (
+                        setor.get().upper() == 'ANEXO') or (subsetor.get().upper() == 'ANEXO'):
+                    anexo2 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\pedido {}.pdf'.format(
+                        ano.get(), mes.get().upper(), pedido.get())
+                    if not os.path.exists(anexo2):
+                        messagebox.showwarning(title='Envio de pedido de compras.', message='''Anexo não encontrado.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+                    else:
+                        email.Attachments.Add(anexo2)
+
+                        if vlista.get() == 'SIM':
+                            anexo3 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\BOLETO pedido {}.pdf'.format(
+                                ano.get(), mes.get().upper(), pedido.get())
+                            if not os.path.exists(anexo3):
+                                messagebox.showwarning(title='Envio de pedido de compras.', message='''Boleto não encontrado.
+    Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+
+                            else:
+                                email.Attachments.Add(anexo3)
+
+                                email.Send()
+
+                                enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
+                                enviado.grid(column=0, row=12, columnspan=3)
+
+                                botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
+                                botao2.grid(column=0, row=16, columnspan=3, pady=20)
+
+                                pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                                tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
+                                tvencimento.destroy(), textinicial.destroy(), tboleto.destroy(), menuBoleto.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
+                                tobservacao.destroy(), observacao.destroy()
+
+                        else:
+                            email.Send()
+
+                            enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
+                            enviado.grid(column=0, row=12, columnspan=3)
+
+                            botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
+                            botao2.grid(column=0, row=16, columnspan=3, pady=20)
+
+                            pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                            tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
+                            tvencimento.destroy(), textinicial.destroy(), tboleto.destroy(), menuBoleto.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
+                            tobservacao.destroy(), observacao.destroy()
 
                 else:
-                    email.Attachments.Add(anexo2)
-
                     if vlista.get() == 'SIM':
                         anexo3 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\BOLETO pedido {}.pdf'.format(
                             ano.get(), mes.get().upper(), pedido.get())
                         if not os.path.exists(anexo3):
                             messagebox.showwarning(title='Envio de pedido de compras.', message='''Boleto não encontrado.
-Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
+    Verifique n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
 
                         else:
                             email.Attachments.Add(anexo3)
@@ -289,7 +328,7 @@ Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
                             botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
                             botao2.grid(column=0, row=16, columnspan=3, pady=20)
 
-                            pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                            pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
                             tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
                             tvencimento.destroy(), textinicial.destroy(), tboleto.destroy(), menuBoleto.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
                             tobservacao.destroy(), observacao.destroy()
@@ -303,55 +342,20 @@ Verifiquei o n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
                         botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
                         botao2.grid(column=0, row=16, columnspan=3, pady=20)
 
-                        pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
+                        pedido.pack_forget(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
                         tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
                         tvencimento.destroy(), textinicial.destroy(), tboleto.destroy(), menuBoleto.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
                         tobservacao.destroy(), observacao.destroy()
 
-            else:
-                if vlista.get() == 'SIM':
-                    anexo3 = 'W:\\Compras de peças - REGISTROS_NFs_CONTROLE\\NOTAS FISCAIS\\{}\\{}\\BOLETO pedido {}.pdf'.format(
-                        ano.get(), mes.get().upper(), pedido.get())
-                    if not os.path.exists(anexo3):
-                        messagebox.showwarning(title='Envio de pedido de compras.', message='''Boleto não encontrado.
-Verifique n° do pedido, mês, ano ou se o arquivo está salvo na pasta.''')
 
-                    else:
-                        email.Attachments.Add(anexo3)
+    def fechar():
 
-                        email.Send()
+        planilha.append([pedido.get()])
+        arquivoPedido.save("W:/Compras de peças - REGISTROS_NFs_CONTROLE/Historico de notas enviadas.xlsx")
+        NF_envio.quit()
 
-                        enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
-                        enviado.grid(column=0, row=12, columnspan=3)
-
-                        botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
-                        botao2.grid(column=0, row=16, columnspan=3, pady=20)
-
-                        pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
-                        tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
-                        tvencimento.destroy(), textinicial.destroy(), tboleto.destroy(), menuBoleto.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
-                        tobservacao.destroy(), observacao.destroy()
-
-                else:
-                    email.Send()
-
-                    enviado = Label(NF_envio, text='E-mail enviado!', fg='blue')
-                    enviado.grid(column=0, row=12, columnspan=3)
-
-                    botao2 = Button(NF_envio, text='Sair', command=fechar, padx=30)
-                    botao2.grid(column=0, row=16, columnspan=3, pady=20)
-
-                    pedido.destroy(), ano.destroy(), menuMes.destroy(), finalidade.destroy(), projeto.destroy(), setor.destroy(), subsetor.destroy(), vencimento.destroy(),
-                    tpedido.destroy(), tano.destroy(), tmes.destroy(), tfinalidade.destroy(), tprojeto.destroy(), tsetor.destroy(), tsubsetor.destroy(),
-                    tvencimento.destroy(), textinicial.destroy(), tboleto.destroy(), menuBoleto.destroy(), tnome.destroy(), nome.destroy(), temailcc.destroy(), emailcc.destroy(),
-                    tobservacao.destroy(), observacao.destroy()
-
-
-def fechar():
-
-    planilha.append([pedido.get()])
-    arquivoPedido.save("W:/Compras de peças - REGISTROS_NFs_CONTROLE/Historico de notas enviadas.xlsx")
-    NF_envio.quit()
+except Exception as e:
+    print(e)
 
 
 NF_envio = Tk()
@@ -413,7 +417,7 @@ finalidade.grid(column=1, row=6, columnspan=2, sticky=EW)'''
 
 tprojeto = Label(NF_envio, text='Projeto:*')
 tprojeto.grid(column=0, row=8, padx=10, pady=5, sticky=E)
-listaprojeto = ['ANEXO', ('TEMP', datetime.now().year), '22DENERPF', '22ESP', '22ET1', '22ET2', '22ET3', '22ET4', '22ET5', '22ET6', '22ET7', '22ET8', '22ET9', '22PJE']
+listaprojeto = ['ANEXO', f'''TEMP{str(datetime.now().year)}''', f'''{str(datetime.now().year)[2:4]}DENERPF''', f'''{str(datetime.now().year)[2:4]}ESP''', f'''{str(datetime.now().year)[2:4]}ET1''', f'''{str(datetime.now().year)[2:4]}ET2''', f'''{str(datetime.now().year)[2:4]}ET3''', f'''{str(datetime.now().year)[2:4]}ET4''', f'''{str(datetime.now().year)[2:4]}ET5''', f'''{str(datetime.now().year)[2:4]}ET6''', f'''{str(datetime.now().year)[2:4]}ET7''', f'''{str(datetime.now().year)[2:4]}ET8''', f'''{str(datetime.now().year)[2:4]}ET9''', f'''{str(datetime.now().year)[2:4]}PJE''']
 projeto = ttk.Combobox(NF_envio, values=listaprojeto)
 projeto.grid(column=1, row=8, columnspan=2, sticky=EW)
 
